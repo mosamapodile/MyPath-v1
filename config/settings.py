@@ -3,6 +3,16 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# ==========================================
+# CORE DEVELOPMENT ENVIRONMENT BASICS
+# ==========================================
+SECRET_KEY = 'django-insecure-mypath-hackathon-development-key-2026'
+DEBUG = False # CRUCIAL: Always set to False in production for security hardening
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]']
+
+# CRUCIAL: Directs incoming requests to the master routing configuration
+ROOT_URLCONF = 'config.urls'
+
 # Database configuration using standard SQLite3 backend layout
 DATABASES = {
     'default': {
@@ -22,6 +32,7 @@ INSTALLED_APPS = [
     
     # Third-Party Dependencies
     'rest_framework',
+    'rest_framework.authtoken',  # CRUCIAL: Enables database-backed auth tokens
     'corsheaders',
 
     # Custom Core Modules
@@ -60,8 +71,29 @@ TEMPLATES = [
 # 2. Inform Django to utilize our custom extending user object model
 AUTH_USER_MODEL = 'authentication.User'
 
+# ==========================================
+# REST FRAMEWORK & CORS ARCHITECTURE KEYS
+# ==========================================
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication', # Instructs DRF to parse bearer tokens
+    ],
+}
+
+# Allows your frontend server running on port 5173 to execute API requests
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
+
 # 3. Configure Broker Channels for Async tasks (Celery + Redis)
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
+
+# ==========================================
+# STATIC FILES CONFIGURATION
+# ==========================================
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
