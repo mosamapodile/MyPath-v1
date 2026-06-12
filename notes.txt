@@ -1,0 +1,18 @@
+(in wsl terminal)
+1. versual environment
+python3 -m venv venv
+
+2. venv activation
+source venv/bin/activate
+
+(Install them runing pip install -r requirements.txt inside your virtual environment)
+
+3. Django project init
+# 1. Generate migrations structural tracks
+python3 manage.py makemigrations authentication academics career_ai
+
+# 2. Execute architectural execution tables against database file
+python3 manage.py migrate
+
+# 3. Spin up the server engine instance
+python3 manage.py runserver
